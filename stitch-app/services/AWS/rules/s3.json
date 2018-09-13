@@ -1,0 +1,9 @@
+{
+    "name": "s3",
+    "actions": [
+        "s3:PutObject"
+    ],
+    "when": {
+        "%%args.Bucket": "stitchcraft-picstream"
+    }
+}
