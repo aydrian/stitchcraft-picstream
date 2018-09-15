@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "moment": "^2.22.2",
     "mongodb-stitch-browser-sdk": "^4.0.13",
     "mongodb-stitch-browser-services-aws": "^4.0.13",
     "react": "^16.5.1",
