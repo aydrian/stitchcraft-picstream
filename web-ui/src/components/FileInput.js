@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Input } from 'semantic-ui-react'
 
 class FileInput extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class FileInput extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    const file = this.fileInput.current.files[0]
+    const file = this.fileInput.current.inputRef.files[0]
     console.log(`Selected file - ${file.name}`)
     this.handleFileUpload(file)
   }
@@ -18,12 +19,19 @@ class FileInput extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          Upload file:
-          <input type="file" ref={this.fileInput} />
-        </label>
-        <br />
-        <button type="submit">Upload</button>
+        <Input
+          type="file"
+          action={{
+            color: 'blue',
+            labelPosition: 'left',
+            icon: 'cloud upload',
+            content: 'Upload',
+            role: 'submit',
+            size: 'small'
+          }}
+          ref={this.fileInput}
+          size="small"
+        />
       </form>
     )
   }

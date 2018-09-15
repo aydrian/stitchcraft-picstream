@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
-import { Stitch, GoogleRedirectCredential } from 'mongodb-stitch-browser-sdk'
-import { RemoteMongoClient } from 'mongodb-stitch-browser-services-mongodb-remote'
+import { Header, Icon, Container, Menu } from 'semantic-ui-react'
+import {
+  Stitch,
+  GoogleRedirectCredential,
+  RemoteMongoClient
+} from 'mongodb-stitch-browser-sdk'
 import {
   AwsServiceClient,
   AwsRequest
 } from 'mongodb-stitch-browser-services-aws'
 
+import Login from './components/Login'
 import FileInput from './components/FileInput'
-
-import './App.css'
+import Feed from './components/Feed'
 
 const convertImageToBSONBinaryObject = file => {
   return new Promise(resolve => {
@@ -29,7 +33,10 @@ class StitchApp extends Component {
   constructor(props) {
     super(props)
     this.appId = props.appId
-    this.client = Stitch.initializeDefaultAppClient(this.appId)
+    if (!Stitch.hasAppClient(this.appId)) {
+      this.client = Stitch.initializeDefaultAppClient(this.appId)
+    }
+
     this.mongodb = this.client.getServiceClient(
       RemoteMongoClient.factory,
       'mongodb-atlas'
@@ -39,7 +46,8 @@ class StitchApp extends Component {
     const isAuthed = this.client.auth.isLoggedIn
 
     this.state = {
-      isAuthed
+      isAuthed,
+      entries: []
     }
 
     this.handleFileUpload = this.handleFileUpload.bind(this)
@@ -51,6 +59,36 @@ class StitchApp extends Component {
         this.setState({ isAuthed: this.client.auth.isLoggedIn })
       })
     }
+
+    if (this.state.isAuthed) {
+      this.getEntries()
+    }
+  }
+
+  login = async (type, { email, password } = {}) => {
+    const { isAuthed } = this.state
+
+    if (isAuthed) {
+      return
+    }
+
+    this.client.auth.loginWithRedirect(new GoogleRedirectCredential())
+  }
+
+  logout = async () => {
+    this.client.auth.logout()
+    this.setState({ isAuthed: false })
+  }
+
+  getEntries = async () => {
+    this.mongodb
+      .db('data')
+      .collection('picstream')
+      .find({}, { sort: { ts: -1 } })
+      .asArray()
+      .then(entries => {
+        this.setState({ entries })
+      })
   }
 
   handleFileUpload(file) {
@@ -58,71 +96,92 @@ class StitchApp extends Component {
       return
     }
 
-    convertImageToBSONBinaryObject(file).then(result => {
-      const picstream = this.mongodb.db('data').collection('picstream')
-      const key = `${this.client.auth.user.id}-${file.name}`
-      const bucket = 'stitchcraft-picstream'
-      const url = `http://${bucket}.s3.amazonaws.com/${encodeURIComponent(key)}`
+    return convertImageToBSONBinaryObject(file)
+      .then(result => {
+        const picstream = this.mongodb.db('data').collection('picstream')
+        const key = `${this.client.auth.user.id}-${file.name}`
+        const bucket = 'stitchcraft-picstream'
+        const url = `http://${bucket}.s3.amazonaws.com/${encodeURIComponent(
+          key
+        )}`
 
-      const args = {
-        ACL: 'public-read',
-        Bucket: bucket,
-        ContentType: file.type,
-        Key: key,
-        Body: result
-      }
+        const args = {
+          ACL: 'public-read',
+          Bucket: bucket,
+          ContentType: file.type,
+          Key: key,
+          Body: result
+        }
 
-      const request = new AwsRequest.Builder()
-        .withService('s3')
-        .withAction('PutObject')
-        .withRegion('us-east-1')
-        .withArgs(args)
+        const request = new AwsRequest.Builder()
+          .withService('s3')
+          .withAction('PutObject')
+          .withRegion('us-east-1')
+          .withArgs(args)
 
-      this.aws
-        .execute(request.build())
-        .then(result => {
-          console.log(result)
-          console.log(url)
-          return picstream.insertOne({
-            owner_id: this.client.auth.user.id,
-            url,
-            file: {
-              name: file.name,
-              type: file.type
-            },
-            ETag: result.ETag,
-            ts: new Date()
+        this.aws
+          .execute(request.build())
+          .then(result => {
+            console.log(result)
+            console.log(url)
+            return picstream.insertOne({
+              owner_id: this.client.auth.user.id,
+              url,
+              file: {
+                name: file.name,
+                type: file.type
+              },
+              ETag: result.ETag,
+              ts: new Date()
+            })
           })
-        })
-        .then(result => {
-          console.log(result)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    })
+          .then(result => {
+            this.getEntries()
+            console.log(result)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   render() {
     const { isAuthed } = this.state
     return (
-      <div className="App">
+      <Container>
+        <Header as="h2" icon textAlign="center">
+          <Icon name="camera retro" circular />
+          <Header.Content>PicStream</Header.Content>
+          <Header.Subheader>
+            Built using MongoDB Stitch and AWS S3
+          </Header.Subheader>
+        </Header>
         {isAuthed ? (
           <div>
-            <h2>Your authed</h2>
-            <FileInput handleFileUpload={this.handleFileUpload} />
+            <Menu>
+              <Menu.Item>
+                Welcome, {this.client.auth.user.profile.firstName}
+              </Menu.Item>
+              <Menu.Item>
+                <FileInput handleFileUpload={this.handleFileUpload} />
+              </Menu.Item>
+              <Menu.Item
+                position="right"
+                content="Logout"
+                onClick={() => {
+                  this.logout()
+                }}
+              />
+            </Menu>
+            <Feed entries={this.state.entries} />
           </div>
         ) : (
-          <button
-            onClick={() => {
-              const credential = new GoogleRedirectCredential()
-              this.client.auth.loginWithRedirect(credential)
-            }}
-          >
-            Sign in using Google
-          </button>
+          <Login loginUser={this.login} />
         )}
-      </div>
+      </Container>
     )
   }
 }

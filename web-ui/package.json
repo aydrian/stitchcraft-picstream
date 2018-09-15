@@ -5,10 +5,11 @@
   "dependencies": {
     "mongodb-stitch-browser-sdk": "^4.0.13",
     "mongodb-stitch-browser-services-aws": "^4.0.13",
-    "mongodb-stitch-browser-services-mongodb-remote": "^4.0.13",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
-    "react-scripts": "1.1.5"
+    "react-scripts": "1.1.5",
+    "semantic-ui-css": "^2.3.3",
+    "semantic-ui-react": "^0.82.5"
   },
   "scripts": {
     "start": "react-scripts start",
