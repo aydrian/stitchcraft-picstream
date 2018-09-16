@@ -5,7 +5,7 @@ import moment from 'moment'
 const formatDate = date => {
   date = moment(date)
   let str = ''
-  if (date.isSame(moment(), 'day')) {
+  if (date.isBefore(moment().add(7, 'days'), 'day')) {
     str = date.fromNow()
   } else if (date.isSame(moment(), 'year')) {
     str = date.format('MMMM D')
@@ -27,7 +27,11 @@ const Feed = ({ entries }) => {
                 <Card.Header>{entry.owner_id}</Card.Header>
               </Card.Content>
               <Card.Content extra>
-                <span>{formatDate(entry.ts)}</span>
+                <span
+                  title={moment(entry.ts).format('dddd, MMMM Do YYYY, h:mm a')}
+                >
+                  {formatDate(entry.ts)}
+                </span>
               </Card.Content>
             </Card>
           )

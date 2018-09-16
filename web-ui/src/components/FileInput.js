@@ -12,6 +12,9 @@ class FileInput extends Component {
   handleSubmit(event) {
     event.preventDefault()
     const file = this.fileInput.current.inputRef.files[0]
+    if (!file) {
+      return
+    }
     console.log(`Selected file - ${file.name}`)
     this.handleFileUpload(file)
   }

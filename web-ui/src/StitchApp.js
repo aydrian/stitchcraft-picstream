@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Header, Icon, Container, Menu } from 'semantic-ui-react'
+import { Header, Icon, Container, Menu, Image } from 'semantic-ui-react'
 import {
   Stitch,
   GoogleRedirectCredential,
@@ -163,6 +163,7 @@ class StitchApp extends Component {
           <div>
             <Menu>
               <Menu.Item>
+                <Image src={this.client.auth.user.profile.pictureUrl} avatar />
                 Welcome, {this.client.auth.user.profile.firstName}
               </Menu.Item>
               <Menu.Item>
