@@ -96,15 +96,12 @@ class StitchApp extends Component {
       return
     }
 
+    const key = `${this.client.auth.user.id}-${file.name}`
+    const bucket = 'stitchcraft-picstream'
+    const url = `http://${bucket}.s3.amazonaws.com/${encodeURIComponent(key)}`
+
     return convertImageToBSONBinaryObject(file)
       .then(result => {
-        const picstream = this.mongodb.db('data').collection('picstream')
-        const key = `${this.client.auth.user.id}-${file.name}`
-        const bucket = 'stitchcraft-picstream'
-        const url = `http://${bucket}.s3.amazonaws.com/${encodeURIComponent(
-          key
-        )}`
-
         const args = {
           ACL: 'public-read',
           Bucket: bucket,
@@ -119,33 +116,27 @@ class StitchApp extends Component {
           .withRegion('us-east-1')
           .withArgs(args)
 
-        this.aws
-          .execute(request.build())
-          .then(result => {
-            console.log(result)
-            console.log(url)
-            return picstream.insertOne({
-              owner_id: this.client.auth.user.id,
-              url,
-              file: {
-                name: file.name,
-                type: file.type
-              },
-              ETag: result.ETag,
-              ts: new Date()
-            })
-          })
-          .then(result => {
-            this.getEntries()
-            console.log(result)
-          })
-          .catch(err => {
-            console.log(err)
-          })
+        return this.aws.execute(request.build())
       })
-      .catch(err => {
-        console.log(err)
+      .then(result => {
+        console.log(result)
+        const picstream = this.mongodb.db('data').collection('picstream')
+        return picstream.insertOne({
+          owner_id: this.client.auth.user.id,
+          url,
+          file: {
+            name: file.name,
+            type: file.type
+          },
+          ETag: result.ETag,
+          ts: new Date()
+        })
       })
+      .then(result => {
+        console.log(result)
+        this.getEntries()
+      })
+      .catch(console.error)
   }
 
   render() {
