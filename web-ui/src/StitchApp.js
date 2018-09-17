@@ -102,6 +102,7 @@ class StitchApp extends Component {
 
     return convertImageToBSONBinaryObject(file)
       .then(result => {
+        // AWS S3 Request
         const args = {
           ACL: 'public-read',
           Bucket: bucket,
@@ -115,11 +116,13 @@ class StitchApp extends Component {
           .withAction('PutObject')
           .withRegion('us-east-1')
           .withArgs(args)
+          .build()
 
-        return this.aws.execute(request.build())
+        return this.aws.execute(request)
       })
       .then(result => {
         console.log(result)
+        // MongoDB Request
         const picstream = this.mongodb.db('data').collection('picstream')
         return picstream.insertOne({
           owner_id: this.client.auth.user.id,
