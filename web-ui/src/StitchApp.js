@@ -60,7 +60,7 @@ class StitchApp extends Component {
       })
     }
 
-    if (this.state.isAuthed) {
+    if (this.client.auth.isLoggedIn) {
       this.getEntries()
     }
   }
@@ -126,6 +126,7 @@ class StitchApp extends Component {
         const picstream = this.mongodb.db('data').collection('picstream')
         return picstream.insertOne({
           owner_id: this.client.auth.user.id,
+          owner_name: this.client.auth.user.profile.name,
           url,
           file: {
             name: file.name,

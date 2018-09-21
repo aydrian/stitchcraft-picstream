@@ -1,0 +1,12 @@
+{
+    "name": "updateUser",
+    "type": "AUTHENTICATION",
+    "config": {
+        "operation_type": "LOGIN",
+        "providers": [
+            "oauth2-google"
+        ]
+    },
+    "function_name": "upsertUser",
+    "disabled": false
+}

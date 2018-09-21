@@ -1,0 +1,20 @@
+{
+    "name": "updatePicData",
+    "type": "DATABASE",
+    "config": {
+        "operation_types": [
+            "UPDATE"
+        ],
+        "database": "data",
+        "collection": "users",
+        "service_name": "mongodb-atlas",
+        "match": {
+            "updateDescription.updatedFields.full_name": {
+                "$exists": true
+            }
+        },
+        "full_document": true
+    },
+    "function_name": "updateOwnerInfo",
+    "disabled": false
+}

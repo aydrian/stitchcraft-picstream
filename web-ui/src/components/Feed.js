@@ -24,7 +24,7 @@ const Feed = ({ entries }) => {
             <Card key={entry._id}>
               <Image src={entry.url} />
               <Card.Content>
-                <Card.Header>{entry.owner_id}</Card.Header>
+                <Card.Header>{entry.owner_name || entry.owner_id}</Card.Header>
               </Card.Content>
               <Card.Content extra>
                 <span

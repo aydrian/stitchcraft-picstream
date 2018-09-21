@@ -1,0 +1,12 @@
+{
+    "name": "newUser",
+    "type": "AUTHENTICATION",
+    "config": {
+        "operation_type": "CREATE",
+        "providers": [
+            "oauth2-google"
+        ]
+    },
+    "function_name": "upsertUser",
+    "disabled": false
+}
