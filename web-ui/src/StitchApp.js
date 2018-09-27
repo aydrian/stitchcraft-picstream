@@ -143,6 +143,39 @@ class StitchApp extends Component {
       .catch(console.error)
   }
 
+  share = async (entry, email) => {
+    const args = {
+      Destination: {
+        ToAddresses: [email]
+      },
+      Message: {
+        Body: {
+          Html: {
+            Charset: 'UTF-8',
+            Data: `
+                <h1>Enjoy this pic!</h1>
+                <img src="${entry.url}" />
+               `
+          }
+        },
+        Subject: {
+          Charset: 'UTF-8',
+          Data: `Picture shared by ${entry.owner_name}`
+        }
+      },
+      Source: 'picstream@ses.aydrian.me'
+    }
+
+    const request = new AwsRequest.Builder()
+      .withService('ses')
+      .withAction('SendEmail')
+      .withRegion('us-east-1')
+      .withArgs(args)
+      .build()
+
+    return this.aws.execute(request)
+  }
+
   render() {
     const { isAuthed } = this.state
     return (
@@ -172,7 +205,7 @@ class StitchApp extends Component {
                 }}
               />
             </Menu>
-            <Feed entries={this.state.entries} />
+            <Feed entries={this.state.entries} share={this.share} />
           </div>
         ) : (
           <Login loginUser={this.login} />

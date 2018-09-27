@@ -2,6 +2,8 @@ import React from 'react'
 import { Card, Image } from 'semantic-ui-react'
 import moment from 'moment'
 
+import ShareModal from './ShareModal'
+
 const formatDate = date => {
   date = moment(date)
   let str = ''
@@ -15,7 +17,7 @@ const formatDate = date => {
   return str.toUpperCase()
 }
 
-const Feed = ({ entries }) => {
+const Feed = ({ entries, share }) => {
   return (
     <Card.Group itemsPerRow={3}>
       {entries.length > 0 ? (
@@ -32,6 +34,7 @@ const Feed = ({ entries }) => {
                 >
                   {formatDate(entry.ts)}
                 </span>
+                <ShareModal entry={entry} share={share} />
               </Card.Content>
             </Card>
           )
