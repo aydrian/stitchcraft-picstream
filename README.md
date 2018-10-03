@@ -17,6 +17,7 @@ The following scripts will assist in the initial setup of your Stitch Applicatio
 ## Requirements:
 
 - Install the [stitch-cli](https://docs.mongodb.com/stitch/import-export/stitch-cli-reference/)
+- Generate an [API Key](https://docs.atlas.mongodb.com/configure-api-access/#generate-api-keys)
 - Create a `.env` file like the following
 
 ```
