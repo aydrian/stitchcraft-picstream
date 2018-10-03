@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Image } from 'semantic-ui-react'
+import { Card, Image, Menu } from 'semantic-ui-react'
 import moment from 'moment'
 
 import ShareModal from './ShareModal'
@@ -29,12 +29,20 @@ const Feed = ({ entries, share }) => {
                 <Card.Header>{entry.owner_name || entry.owner_id}</Card.Header>
               </Card.Content>
               <Card.Content extra>
-                <span
-                  title={moment(entry.ts).format('dddd, MMMM Do YYYY, h:mm a')}
-                >
-                  {formatDate(entry.ts)}
-                </span>
-                <ShareModal entry={entry} share={share} />
+                <Menu secondary size="tiny">
+                  <Menu.Item fitted>
+                    <span
+                      title={moment(entry.ts).format(
+                        'dddd, MMMM Do YYYY, h:mm a'
+                      )}
+                    >
+                      {formatDate(entry.ts)}
+                    </span>
+                  </Menu.Item>
+                  <Menu.Item fitted position="right">
+                    <ShareModal entry={entry} share={share} />
+                  </Menu.Item>
+                </Menu>
               </Card.Content>
             </Card>
           )
