@@ -1,0 +1,6 @@
+{
+    "name": "ses",
+    "actions": [
+        "ses:SendEmail"
+    ]
+}
