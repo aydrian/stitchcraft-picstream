@@ -2,6 +2,8 @@
 
 An Instagram-like application created using MongoDB Stitch and React.js
 
+![Powered by Stitch](http://badge.learnstitch.com/?appid=stitchcraft-picstream-kcpaj)(http://cloud.mongodb.com)
+
 ## web-ui
 
 React.js application created using [Create React App](https://github.com/facebook/create-react-app).
