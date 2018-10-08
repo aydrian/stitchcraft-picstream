@@ -1,0 +1,16 @@
+{
+    "name": "analysePic",
+    "type": "DATABASE",
+    "config": {
+        "operation_types": [
+            "INSERT"
+        ],
+        "database": "data",
+        "collection": "picstream",
+        "service_name": "mongodb-atlas",
+        "match": {},
+        "full_document": true
+    },
+    "function_name": "analysePic",
+    "disabled": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "rekognition",
+    "actions": [
+        "rekognition:DetectLabels"
+    ]
+}
