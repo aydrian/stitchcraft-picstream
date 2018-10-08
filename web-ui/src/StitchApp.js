@@ -132,7 +132,11 @@ class StitchApp extends Component {
             name: file.name,
             type: file.type
           },
-          ETag: result.ETag,
+          s3: {
+            bucket,
+            key,
+            ETag: result.ETag
+          },
           ts: new Date()
         })
       })

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Image, Menu } from 'semantic-ui-react'
+import { Card, Image, Menu, Label } from 'semantic-ui-react'
 import moment from 'moment'
 
 import ShareModal from './ShareModal'
@@ -27,6 +27,17 @@ const Feed = ({ entries, share }) => {
               <Image src={entry.url} />
               <Card.Content>
                 <Card.Header>{entry.owner_name || entry.owner_id}</Card.Header>
+                {entry.tags ? (
+                  entry.tags.map(tag => {
+                    return (
+                      <Label color="green" tag>
+                        {tag.Name}
+                      </Label>
+                    )
+                  })
+                ) : (
+                  <span>processing image</span>
+                )}
               </Card.Content>
               <Card.Content extra>
                 <Menu secondary size="tiny">
