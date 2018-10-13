@@ -28,13 +28,6 @@ export STITCH_USERNAME=<CLOUD_USERNAME>
 export STITCH_APPID=<APPID>
 ```
 
-- Make scripts executable
-
-```
-> chmod +x deploy
-> chmod +x export
-```
-
 - Create a `secrets.json` file in the `stitch-app` directory like the following
 
 ```
@@ -55,20 +48,20 @@ export STITCH_APPID=<APPID>
 
 **NOTE:** Do not commit this file.
 
-### deploy
+### deploy.sh
 
-Deploy current code using `./deploy` in the root of the project
-
-```
-> ./deploy
-```
-
-### export
-
-Export the project code template using `./export` in the root of the project.
+Deploy current code using `./deploy.sh` in the root of the project
 
 ```
-> ./export
+> ./deploy.sh
+```
+
+### export.sh
+
+Export the project code template using `./export.sh` in the root of the project.
+
+```
+> ./export.sh
 ```
 
 **Note:** This exports the application configuration without any service ID values, including the App ID.
