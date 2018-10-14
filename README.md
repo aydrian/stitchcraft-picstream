@@ -1,6 +1,6 @@
 # Pic Stream
 
-An Instagram-like application created using MongoDB Stitch and React.js
+An Instagram-like application created using MongoDB Stitch and React.js. Live-coding videos for this app can be found on the [StitchCraft YouTube Playlist](https://www.youtube.com/playlist?list=PLj1pp3XEk-6ejDdsKJsLUefibVh1KzN5t).
 
 [![Powered by Stitch](http://badge.learnstitch.com/?appid=stitchcraft-picstream-kcpaj)](http://cloud.mongodb.com)
 
