@@ -9,6 +9,7 @@ import {
   AwsServiceClient,
   AwsRequest
 } from 'mongodb-stitch-browser-services-aws'
+import BSON from 'bson'
 
 import Login from './components/Login'
 import FileInput from './components/FileInput'
@@ -18,14 +19,10 @@ const convertImageToBSONBinaryObject = file => {
   return new Promise(resolve => {
     var fileReader = new FileReader()
     fileReader.onload = event => {
-      resolve({
-        $binary: {
-          base64: event.target.result.split(',')[1],
-          subType: '00'
-        }
-      })
+      var eventBinary = new BSON.Binary(new Uint8Array(event.target.result))
+      resolve(eventBinary)
     }
-    fileReader.readAsDataURL(file)
+    fileReader.readAsArrayBuffer(file)
   })
 }
 
