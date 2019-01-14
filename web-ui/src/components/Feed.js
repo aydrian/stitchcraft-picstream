@@ -19,7 +19,7 @@ const formatDate = date => {
 
 const Feed = ({ entries, share }) => {
   return (
-    <Card.Group itemsPerRow={3}>
+    <Card.Group itemsPerRow={3} stackable>
       {entries.length > 0 ? (
         entries.map(entry => {
           return (

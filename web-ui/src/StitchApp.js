@@ -190,7 +190,7 @@ class StitchApp extends Component {
         </Header>
         {isAuthed ? (
           <div>
-            <Menu>
+            <Menu stackable>
               <Menu.Item>
                 <Image src={this.client.auth.user.profile.pictureUrl} avatar />
                 Welcome, {this.client.auth.user.profile.firstName}
