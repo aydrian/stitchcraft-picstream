@@ -9,7 +9,8 @@
         "collection": "picstream",
         "service_name": "mongodb-atlas",
         "match": {},
-        "full_document": true
+        "full_document": true,
+        "unordered": false
     },
     "function_name": "analysePic",
     "disabled": false

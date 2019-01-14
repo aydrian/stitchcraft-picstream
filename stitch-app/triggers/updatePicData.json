@@ -13,7 +13,8 @@
                 "$exists": true
             }
         },
-        "full_document": true
+        "full_document": true,
+        "unordered": false
     },
     "function_name": "updateOwnerInfo",
     "disabled": false

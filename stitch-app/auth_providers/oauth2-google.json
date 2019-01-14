@@ -44,6 +44,8 @@
         }
     ],
     "redirect_uris": [
-        "http://localhost:3000/"
+        "http://localhost:3000/",
+        "https://stitchcraft-picstream-kcpaj.mongodbstitch.com/",
+        "https://picstream.itsaydrian.com/"
     ]
 }

@@ -2,8 +2,7 @@
     "name": "AWS",
     "type": "aws",
     "config": {
-        "accessKeyId": "AKIAILY2P6NFOAXR3IOQ",
-        "region": "us-east-1"
+        "accessKeyId": "AKIAILY2P6NFOAXR3IOQ"
     },
     "version": 1
 }
