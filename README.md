@@ -10,7 +10,7 @@ React.js application created using [Create React App](https://github.com/faceboo
 
 ## stitch-app
 
-Exported (as template) [Stitch app](https://docs.mongodb.com/stitch/import-export/export-stitch-app/).
+Exported (as template) [Stitch app](https://docs.mongodb.com/stitch/deploy/export-stitch-app/).
 
 ## Scripts
 
@@ -18,7 +18,7 @@ The following scripts will assist in the initial setup of your Stitch Applicatio
 
 ## Requirements:
 
-- Install the [stitch-cli](https://docs.mongodb.com/stitch/import-export/stitch-cli-reference/)
+- Install the [stitch-cli](https://docs.mongodb.com/stitch/deploy/stitch-cli-reference/)
 - Generate an [API Key](https://docs.atlas.mongodb.com/configure-api-access/#generate-api-keys)
 - Create a `.env` file like the following
 
